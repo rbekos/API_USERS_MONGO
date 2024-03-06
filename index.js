@@ -3,11 +3,15 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import userRouter from './routes/userRouter.js'
+import postRouter from './routes/postRouter.js'
+import cors from 'cors'
 
-dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 3080
+
+app.use(cors())
+dotenv.config()
 
 app.use(bodyParser.urlencoded({
     extended : true
@@ -28,6 +32,6 @@ app.get('/', (req, res) => {
     res.send('Bienvenue sur mon API utilisant Mongo et express')
 })
 
-app.use('/', userRouter)
+app.use('/', userRouter, postRouter)
 
 app.listen(port, () => console.log(`Server est route sur le port ${port}`))

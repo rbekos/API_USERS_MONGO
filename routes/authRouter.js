@@ -3,6 +3,7 @@ import User from '../models/user.js'
 const authRouter = express.Router()
 import bcrypt from 'bcryptjs'
 import Jwt from 'jsonwebtoken'
+import verify from '../middleware/verify.js'
 
 
 authRouter.post('/register', async (req, res) => {
@@ -29,7 +30,7 @@ authRouter.post('/register', async (req, res) => {
 
 })
 
-authRouter.post('/login', async (req, res) => {
+authRouter.post('/login', verify, async (req, res) => {
     const { email, password } = req.body
 
     try {
@@ -41,6 +42,7 @@ authRouter.post('/login', async (req, res) => {
 
         const token = Jwt.sign({ id: user._id, firstname: user.first_name }, process.env.JWT_SECRET,{ expiresIn: '1d' } )
         res.header('auth-token', token)
+        res.json(token)
 
     }
     catch (err) {

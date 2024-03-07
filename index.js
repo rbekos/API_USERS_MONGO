@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import userRouter from './routes/userRouter.js'
 import postRouter from './routes/postRouter.js'
+import authRouter from './routes/authRouter.js'
 import cors from 'cors'
 
 
@@ -32,6 +33,6 @@ app.get('/', (req, res) => {
     res.send('Bienvenue sur mon API utilisant Mongo et express')
 })
 
-app.use('/', userRouter, postRouter)
+app.use('/', userRouter, postRouter, authRouter)
 
 app.listen(port, () => console.log(`Server est route sur le port ${port}`))
